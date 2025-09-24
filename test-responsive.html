@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Responsive Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        .test-box { 
+            padding: 20px; 
+            margin: 10px 0; 
+            border: 2px solid #333; 
+            border-radius: 8px;
+        }
+        @media (max-width: 640px) {
+            .test-box { background-color: red; color: white; }
+            .test-box::before { content: "📱 Mobile (< 640px): "; }
+        }
+        @media (min-width: 640px) and (max-width: 768px) {
+            .test-box { background-color: orange; color: white; }
+            .test-box::before { content: "📟 Small (640px - 768px): "; }
+        }
+        @media (min-width: 768px) and (max-width: 1024px) {
+            .test-box { background-color: green; color: white; }
+            .test-box::before { content: "💻 Medium (768px - 1024px): "; }
+        }
+        @media (min-width: 1024px) {
+            .test-box { background-color: blue; color: white; }
+            .test-box::before { content: "🖥️ Large (> 1024px): "; }
+        }
+    </style>
+</head>
+<body>
+    <h1>Responsive Design Test</h1>
+    <div class="test-box">
+        Resize your browser window to see the responsive design in action!
+    </div>
+    <p>This page demonstrates responsive breakpoints. The box above will change color based on your screen size:</p>
+    <ul>
+        <li>🔴 Red: Mobile (< 640px)</li>
+        <li>🟠 Orange: Small tablet (640px - 768px)</li>
+        <li>🟢 Green: Tablet (768px - 1024px)</li>
+        <li>🔵 Blue: Desktop (> 1024px)</li>
+    </ul>
+</body>
+</html>
