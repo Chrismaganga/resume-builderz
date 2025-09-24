@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Home, FileText, Layout, Settings, LogOut, User, Search, Grid, List, Menu, X, Briefcase, GraduationCap, Wrench, Code, Award } from 'lucide-react';
 import type { Resume } from '../../types/resume';
-import ResumeBuilder from '../resume/ResumeBuilder';
 import EnhancedTemplateSelector from '../resume/EnhancedTemplateSelector';
 import ResumePreview from '../resume/ResumePreview';
 import PersonalInfoForm from '../resume/PersonalInfoForm';

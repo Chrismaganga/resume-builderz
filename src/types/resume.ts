@@ -33,6 +33,7 @@ export interface Education {
   endDate: string;
   current: boolean;
   gpa?: string;
+  description?: string; // Added missing property
 }
 
 export interface Skill {
@@ -49,6 +50,9 @@ export interface Project {
   technologies: string[];
   url?: string;
   github?: string;
+  startDate?: string; // Added missing property
+  endDate?: string; // Added missing property
+  current?: boolean; // Added missing property
 }
 
 export interface Certification {
@@ -59,6 +63,7 @@ export interface Certification {
   expiryDate?: string;
   credentialId?: string;
   url?: string;
+  date?: string; // Added as alias for issueDate
 }
 
 export interface TemplateColors {
@@ -69,11 +74,22 @@ export interface TemplateColors {
   background: string;
 }
 
-export interface TemplateLayout {
-  headerStyle: 'left' | 'center' | 'right';
-  sectionSpacing: 'compact' | 'normal' | 'spacious';
-  fontFamily: string;
-  fontSize: 'small' | 'medium' | 'large';
+// Changed to string union type instead of interface
+export type TemplateLayout = 'modern' | 'classic' | 'minimalist' | 'creative';
+
+export interface TemplateFonts {
+  heading: string;
+  body: string;
+}
+
+export interface TemplateSections {
+  personalInfo: boolean;
+  summary: boolean;
+  experience: boolean;
+  education: boolean;
+  skills: boolean;
+  projects: boolean;
+  certifications: boolean;
 }
 
 export interface TemplateConfig {
@@ -82,7 +98,10 @@ export interface TemplateConfig {
   description: string;
   colors: TemplateColors;
   layout: TemplateLayout;
-  preview: string;
+  preview?: string;
+  fonts: TemplateFonts; // Added missing property
+  spacing: 'compact' | 'standard' | 'spacious'; // Added missing property
+  sections: TemplateSections; // Added missing property
 }
 
 export interface Resume {
@@ -96,4 +115,5 @@ export interface Resume {
   template: string;
   createdAt: string;
   updatedAt: string;
+  themeConfig?: any; // Added missing property
 }

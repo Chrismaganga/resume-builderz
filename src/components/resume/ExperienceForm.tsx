@@ -4,6 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Edit2, Plus, Trash2, Briefcase, Calendar, MapPin, Building, Code } from 'lucide-react';
 import type { Experience, Resume } from '../../types/resume';
 
+
+interface ExperienceFormData extends Omit<Experience, "technologies"> {
+  technologies: string;
+}
 interface ExperienceFormProps {
   resume: Resume;
   onUpdate: (resume: Resume) => void;
@@ -13,7 +17,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ resume, onUpdate }) => 
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
 
-  const { register, handleSubmit, reset, formState: { errors }, watch, setValue } = useForm<Experience>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<ExperienceFormData>({
     defaultValues: {
       id: '',
       company: '',
@@ -24,13 +28,12 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ resume, onUpdate }) => 
       current: false,
       description: '',
       achievements: [],
-      technologies: [],
+      technologies: "",
     },
   });
 
-  const technologiesString = watch('technologies') || '';
 
-  const onSubmit = (data: Experience) => {
+  const onSubmit = (data: ExperienceFormData) => {
     // Convert technologies string to array
     const technologiesArray = data.technologies 
       ? data.technologies.split(',').map(tech => tech.trim()).filter(tech => tech.length > 0)
@@ -241,7 +244,7 @@ const ExperienceForm: React.FC<ExperienceFormProps> = ({ resume, onUpdate }) => 
               </h3>
             </div>
             
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-2">
                   <label className="label flex items-center space-x-2">

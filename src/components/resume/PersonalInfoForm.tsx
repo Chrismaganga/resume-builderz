@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { motion } from 'framer-motion';
-import { User, Mail, Phone, MapPin, Globe, Linkedin, Github, FileText } from 'lucide-react';
+import { User, Mail, Phone, MapPin, Globe, Linkedin, Github, FileText, Check } from 'lucide-react';
 import type { PersonalInfo, Resume } from '../../types/resume';
 
 interface PersonalInfoFormProps {
@@ -10,15 +10,31 @@ interface PersonalInfoFormProps {
 }
 
 const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ resume, onUpdate }) => {
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveSuccess, setSaveSuccess] = useState(false);
+
   const { register, handleSubmit, formState: { errors } } = useForm<PersonalInfo>({
     defaultValues: resume.personalInfo,
   });
 
-  const onSubmit = (data: PersonalInfo) => {
+  const onSubmit = async (data: PersonalInfo) => {
+    setIsSaving(true);
+    setSaveSuccess(false);
+    
+    // Simulate a brief delay for better UX
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    // Update the resume with new personal info
     onUpdate({
       ...resume,
       personalInfo: data,
     });
+    
+    setIsSaving(false);
+    setSaveSuccess(true);
+    
+    // Hide success message after 3 seconds
+    setTimeout(() => setSaveSuccess(false), 3000);
   };
 
   const inputVariants = {
@@ -252,15 +268,42 @@ const PersonalInfoForm: React.FC<PersonalInfoFormProps> = ({ resume, onUpdate })
           variants={inputVariants}
           className="flex justify-end pt-6"
         >
-          <motion.button
-            type="submit"
-            className="btn-primary inline-flex items-center space-x-2"
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <FileText className="w-4 h-4" />
-            <span>Save Changes</span>
-          </motion.button>
+          <div className="flex items-center space-x-4">
+            {/* Success Message */}
+            {saveSuccess && (
+              <motion.div
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                className="flex items-center space-x-2 text-green-600 text-sm font-medium"
+              >
+                <Check className="w-4 h-4" />
+                <span>Saved successfully!</span>
+              </motion.div>
+            )}
+            
+            {/* Save Button */}
+            <motion.button
+              type="submit"
+              disabled={isSaving}
+              className={`btn-primary inline-flex items-center space-x-2 ${
+                isSaving ? 'opacity-75 cursor-not-allowed' : ''
+              }`}
+              whileHover={!isSaving ? { scale: 1.05 } : {}}
+              whileTap={!isSaving ? { scale: 0.95 } : {}}
+            >
+              {isSaving ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Saving...</span>
+                </>
+              ) : (
+                <>
+                  <FileText className="w-4 h-4" />
+                  <span>Save Changes</span>
+                </>
+              )}
+            </motion.button>
+          </div>
         </motion.div>
       </form>
     </motion.div>

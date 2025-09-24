@@ -4,6 +4,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Edit2, Plus, Trash2, Code, Calendar, ExternalLink, Github } from 'lucide-react';
 import type { Project, Resume } from '../../types/resume';
 
+
+interface ProjectFormData extends Omit<Project, "technologies"> {
+  technologies: string;
+}
 interface ProjectsFormProps {
   resume: Resume;
   onUpdate: (resume: Resume) => void;
@@ -13,12 +17,12 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({ resume, onUpdate }) => {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isAdding, setIsAdding] = useState(false);
 
-  const { register, handleSubmit, reset, formState: { errors }, watch } = useForm<Project>({
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<ProjectFormData>({
     defaultValues: {
       id: '',
       name: '',
       description: '',
-      technologies: [],
+      technologies: "",
       url: '',
       github: '',
       startDate: '',
@@ -27,9 +31,8 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({ resume, onUpdate }) => {
     },
   });
 
-  const technologiesString = watch('technologies') || '';
 
-  const onSubmit = (data: Project) => {
+  const onSubmit = (data: ProjectFormData) => {
     // Convert technologies string to array
     const technologiesArray = data.technologies 
       ? data.technologies.split(',').map(tech => tech.trim()).filter(tech => tech.length > 0)
@@ -262,7 +265,7 @@ const ProjectsForm: React.FC<ProjectsFormProps> = ({ resume, onUpdate }) => {
               </h3>
             </div>
             
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={handleSubmit(onSubmit as any)} className="space-y-6">
               <div className="space-y-2">
                 <label className="label flex items-center space-x-2">
                   <Code className="w-4 h-4" />

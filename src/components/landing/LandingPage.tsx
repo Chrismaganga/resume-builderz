@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle, FileText, Palette, Download, Star, Users, Zap } from 'lucide-react';
+import { ArrowRight, FileText, Palette, Download, Star, Users, Zap } from 'lucide-react';
 
 interface LandingPageProps {
   onGetStarted: () => void;

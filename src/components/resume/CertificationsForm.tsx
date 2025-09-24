@@ -18,7 +18,7 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({ resume, onUpdat
       id: '',
       name: '',
       issuer: '',
-      date: '',
+      issueDate: '',
       url: '',
     },
   });
@@ -147,7 +147,7 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({ resume, onUpdat
                       <div className="flex items-center space-x-4 text-sm text-gray-500 mt-1">
                         <span className="flex items-center space-x-1">
                           <Calendar className="w-4 h-4" />
-                          <span>Issued: {cert.date}</span>
+                          <span>Issued: {cert.issueDate}</span>
                         </span>
                       </div>
                     </div>
@@ -259,17 +259,17 @@ const CertificationsForm: React.FC<CertificationsFormProps> = ({ resume, onUpdat
                   <span>Issue Date *</span>
                 </label>
                 <input
-                  {...register('date', { required: 'Issue date is required' })}
+                  {...register('issueDate', { required: 'Issue date is required' })}
                   type="date"
                   className="input-field"
                 />
-                {errors.date && (
+                {errors.issueDate && (
                   <motion.p 
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-red-500 text-sm font-medium"
                   >
-                    {errors.date.message}
+                    {errors.issueDate.message}
                   </motion.p>
                 )}
               </div>
